@@ -1,0 +1,44 @@
+﻿@model ExamGenerator.Models.Article
+
+@{
+    ViewData["Title"] = "CreateExam";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+
+<h1>Create Exam</h1>
+<br />
+<h4>Article</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <form asp-action="CreateExam">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <select id="select1" onchange="setArticleContent()" asp-for="title" class="form-control" asp-items="@(new SelectList(ViewBag.articleList,"content","title"))">
+                    <option selected disabled>-- Choose an Article --</option>
+                </select>
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <br />
+            <div id="display">
+                <p>Choose an article to view its content</p>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+<script type="text/javascript">
+    function setArticleContent() {
+        var ddlSource = "#select1";
+        $('#display').html('<p>' + $(ddlSource).val() + '</p>');
+    }
+</script>

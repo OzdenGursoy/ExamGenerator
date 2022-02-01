@@ -1,13 +1,17 @@
 ﻿using ExamGenerator.Models;
 using HtmlAgilityPack;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Text;
 
 namespace ExamGenerator.Controllers
 {
+    [Authorize]
     public class ExamCreationController : Controller
     {
         public const string baseURL = "https://www.wired.com";
+        List<Article> articles = new List<Article>();
 
         public IActionResult CreateExam()
         {
@@ -28,8 +32,6 @@ namespace ExamGenerator.Controllers
             //Web Scraping for each item to get title and description
             string path = "//div[@class='body__inner-container']";
 
-            List<Article> articles = new List<Article>();
-
             foreach (var item in articleURLs)
             {   
                 string title = item.Key;
@@ -47,7 +49,9 @@ namespace ExamGenerator.Controllers
                 }
             }
 
-            return View(articles);
+            ViewBag.articleList = articles;
+
+            return View();
         }
 
         //Web Scraping Method
