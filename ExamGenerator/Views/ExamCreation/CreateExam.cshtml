@@ -1,4 +1,4 @@
-﻿@model ExamGenerator.Models.Article
+﻿@model ExamGenerator.ViewModel.CreateExamViewModel
 
 @{
     ViewData["Title"] = "CreateExam";
@@ -10,15 +10,16 @@
 <br />
 <h4>Article</h4>
 <hr />
+
 <div class="row">
     <div class="col-md-8 offset-md-2">
         <form asp-action="CreateExam">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <select id="select1" onchange="setArticleContent()" asp-for="title" class="form-control" asp-items="@(new SelectList(ViewBag.articleList,"content","title"))">
+                <select id="select1" name="select1" onchange="setArticleContent()" asp-for="@Model.Article.Title" class="form-control" asp-items="@(new SelectList(ViewBag.articleList,"Content","Title"))">
                     <option selected disabled>-- Choose an Article --</option>
                 </select>
-                <span asp-validation-for="title" class="text-danger"></span>
+                <span asp-validation-for="@Model.Article.Title" class="text-danger"></span>
             </div>
             <br />
             <div id="display">
@@ -56,12 +57,12 @@
                     </div>
                 </div>
                 <div class="form-group col-md-6 offset-3">
-                    <select id="selectAnswer1" class="form-control">
+                    <select id="selectAnswer1" name="selectAnswer1" class="form-control">
                         <option selected disabled>-- Select Correct Answer --</option>
                         <option value ="A" >A</option>
                         <option value ="B" >B</option>
                         <option value ="C" >C</option>
-                        <option value ="C" >D</option>
+                        <option value ="D" >D</option>
                     </select>
                 </div>
             </div>
@@ -97,12 +98,12 @@
                     </div>
                 </div>
                 <div class="form-group col-md-6 offset-3">
-                    <select id="selectAnswer2" class="form-control">
+                    <select id="selectAnswer2" name="selectAnswer2" class="form-control">
                         <option selected disabled>-- Select Correct Answer --</option>
                         <option value ="A" >A</option>
                         <option value ="B" >B</option>
                         <option value ="C" >C</option>
-                        <option value ="C" >D</option>
+                        <option value ="D" >D</option>
                     </select>
                 </div>
             </div>
@@ -138,12 +139,12 @@
                     </div>
                 </div>
                 <div class="form-group col-md-6 offset-3">
-                    <select id="selectAnswer3" class="form-control">
+                    <select id="selectAnswer3" name="selectAnswer3" class="form-control">
                         <option selected disabled>-- Select Correct Answer --</option>
                         <option value ="A" >A</option>
                         <option value ="B" >B</option>
                         <option value ="C" >C</option>
-                        <option value ="C" >D</option>
+                        <option value ="D" >D</option>
                     </select>
                 </div>
             </div>
@@ -179,12 +180,12 @@
                     </div>
                 </div>
                 <div class="form-group col-md-6 offset-3">
-                    <select id="selectAnswer4" class="form-control">
+                    <select id="selectAnswer4" name="selectAnswer4" class="form-control">
                         <option selected disabled>-- Select Correct Answer --</option>
                         <option value ="A" >A</option>
                         <option value ="B" >B</option>
                         <option value ="C" >C</option>
-                        <option value ="C" >D</option>
+                        <option value ="D" >D</option>
                     </select>
                 </div>
             </div>
@@ -192,6 +193,10 @@
             <div class="form-group" style="text-align:center">
                 <input type="submit" value="Create Exam" class="btn btn-primary" />
             </div>
+            <input id="title" 
+            name="title" 
+            type="hidden" 
+            value="1" />
         </form>
     </div>
 </div>
@@ -205,5 +210,7 @@
     function setArticleContent() {
         var ddlSource = "#select1";
         $('#display').html('<p>' + $(ddlSource).val() + '</p>');
+        var selectedTitle= $("#select1 option:selected").text();
+        $("#title").val(selectedTitle);
     }
 </script>
