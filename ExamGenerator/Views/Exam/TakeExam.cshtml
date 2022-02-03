@@ -1,0 +1,134 @@
+﻿@model ExamGenerator.Models.Exam
+
+@{
+    ViewData["Title"] = "TakeExam";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@Model.Title</h1>
+</div>
+<div>
+    <p>@Model.Content</p>
+</div>
+
+<form>
+    <table class="table table-borderless">
+      <tr>
+        <td>
+            <div class="form-group">
+                <p class="col-md-6">1) @ViewBag.q1.QuestionText</p>
+                <input type="radio" id="p1a" name="q1" value="A">
+                <label for="p1a" id="lp1a">A) @ViewBag.q1.OpA</label> <br/>
+                <input type="radio" id="p1b" name="q1" value="B">
+                <label for="p1b" id="lp1b">B) @ViewBag.q1.OpB</label> <br/>
+                <input type="radio" id="p1c" name="q1" value="C">
+                <label for="p1c" id="lp1c">C) @ViewBag.q1.OpC</label> <br/>
+                <input type="radio" id="p1d" name="q1" value="D">
+                <label for="p1d" id="lp1d">D) @ViewBag.q1.OpD</label>
+            </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <p class="col-md-6">2) @ViewBag.q2.QuestionText</p><br>
+                <input type="radio" id="p2a" name="q2" value="A">
+                <label for="p2a" id="lp2a">A) @ViewBag.q2.OpA</label><br>
+                <input type="radio" id="p2b" name="q2" value="B">
+                <label for="p2b" id="lp2b">B) @ViewBag.q2.OpB</label><br>
+                <input type="radio" id="p2c" name="q2" value="C">
+                <label for="p2c" id="lp2c">C) @ViewBag.q2.OpC</label><br>
+                <input type="radio" id="p2d" name="q2" value="D">
+                <label for="p2d" id="lp2d">D) @ViewBag.q2.OpD</label>
+           </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+            <div class="form-group">
+                <p class="col-md-6">3) @ViewBag.q3.QuestionText</p><br>
+                <input type="radio" id="p3a" name="q3" value="A">
+                <label for="p3a" id="lp3a">A) @ViewBag.q3.OpA</label><br>
+                <input type="radio" id="p3b" name="q3" value="B">
+                <label for="p3b" id="lp3b">B) @ViewBag.q3.OpB</label><br>
+                <input type="radio" id="p3c" name="q3" value="C">
+                <label for="p3c" id="lp3c">C) @ViewBag.q3.OpC</label><br>
+                <input type="radio" id="p3d" name="q3" value="D">
+                <label for="p3d" id="lp3d">D) @ViewBag.q3.OpD</label>
+           </div>
+        </td>
+        <td>
+            <div class="form-group">
+                <p class="col-md-6">4) @ViewBag.q4.QuestionText</p><br>
+                <input type="radio" id="p4a" name="q4" value="A">
+                <label for="p4a" id="lp4a">A) @ViewBag.q4.OpA</label><br>
+                <input type="radio" id="p4b" name="q4" value="B">
+                <label for="p4b" id="lp4b">B) @ViewBag.q4.OpB</label><br>
+                <input type="radio" id="p4c" name="q4" value="C">
+                <label for="p4c" id="lp4c">C) @ViewBag.q4.OpC</label><br>
+                <input type="radio" id="p4d" name="q4" value="D">
+                <label for="p4d" id="lp4d">D) @ViewBag.q4.OpD</label>
+           </div>
+        </td>
+      </tr>
+    </table>
+    <div class="form-group" style="text-align:center">
+        <input type="button" value="Complete the Exam" class="btn btn-primary" onclick="checkExam()"/>
+    </div>
+</form>
+
+<script type="text/javascript">
+    function checkExam(){
+        var eid = '@Model.ExamId';
+        var q1Selected = document.querySelector( 'input[name="q1"]:checked');
+        var q2Selected = document.querySelector( 'input[name="q2"]:checked');
+        var q3Selected = document.querySelector( 'input[name="q3"]:checked');
+        var q4Selected = document.querySelector( 'input[name="q4"]:checked');
+        var op_1 = "";
+        var op_2 = "";
+        var op_3 = "";
+        var op_4 = "";
+
+        if(q1Selected != null) {
+            op_1 = q1Selected.value;
+        }
+        if(q2Selected != null) {
+            op_2 = q2Selected.value;
+        }
+        if(q3Selected != null) {
+            op_3 = q3Selected.value;
+        }
+        if(q4Selected != null) {
+            op_4 = q4Selected.value;
+        }
+ 
+
+        $.ajax(
+            {
+                url: '@Url.Action("getColorList", "AjaxHelper")',
+                type: 'POST',
+                dataType: 'Json',
+                data: { id: eid, op1: op_1, op2: op_2, op3: op_3, op4: op_4 },
+                success: function (data) {
+                    if(q1Selected != null) {
+                        buttonLabel1 = document.getElementById("l"+q1Selected.id);
+                        buttonLabel1.style.backgroundColor = data[0];
+                    }
+                    if(q2Selected != null) {
+                        buttonLabel2 = document.getElementById("l"+q2Selected.id);
+                        buttonLabel2.style.backgroundColor = data[1];
+                    }
+                    if(q3Selected != null) {
+                        buttonLabel3 = document.getElementById("l"+q3Selected.id);
+                        buttonLabel3.style.backgroundColor = data[2];
+                    }
+                    if(q4Selected != null) {
+                        buttonLabel4 = document.getElementById("l"+q4Selected.id);
+                        buttonLabel4.style.backgroundColor = data[3];
+                    }                    
+                },
+                error: function (err) {
+                    alert(err.statusText + " " + err.url);
+                }
+            });
+    }
+</script>
+
