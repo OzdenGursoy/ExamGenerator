@@ -4,8 +4,6 @@ using ExamGenerator.ViewModel;
 using HtmlAgilityPack;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Text;
 
 namespace ExamGenerator.Controllers
 {
@@ -16,7 +14,8 @@ namespace ExamGenerator.Controllers
 
         public const int nQuestions = 4;
         public const string baseURL = "https://www.wired.com";
-        List<Article> articles = new List<Article>();
+
+        readonly List<Article> articles = new List<Article>();
 
         public ExamCreationController(ExamGeneratorDbContext context)
         {

@@ -11,7 +11,8 @@ namespace ExamGenerator.Models
         public string OpB { get; set; } = string.Empty;
         public string OpC { get; set; } = string.Empty;
         public string OpD { get; set; } = string.Empty;
-        public string CorrectOp { get; set; } = string.Empty;
+        [Required]
+        public string? CorrectOp { get; set; }
         public int ExamId { get; set;}
         public int QNumber { get; set;}
     }
